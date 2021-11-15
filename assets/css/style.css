@@ -1,0 +1,98 @@
+* {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 4vw 2vw;
+}
+
+main {
+    margin-left: 15%;
+    margin-right: 15%;
+    border-color: red;
+    border-style: none;
+}
+
+
+.buttom {
+    background-color: rgb(49, 29, 112);
+    padding: 0.8vw 1.2vw;
+    border-radius: 7%;
+    color:aliceblue;
+    width: fit-content;
+    margin: auto;
+}
+
+.buttom:hover{
+    background-color: rgb(176, 100, 222);
+}
+
+ol {
+    width: 30%;
+    max-width: max-content;
+}
+
+ol .buttom {
+    width: 100%;
+    padding: 2vw;
+    margin: 2vw 0;
+}
+
+ol li {
+    margin: 10vw 0;
+}
+
+ol li::marker {
+    color: rgb(49, 29, 112);
+}
+
+
+
+#check-mark {
+    margin-top: 10vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+ul li {
+    display: inline;
+    min-width: 2vw;
+    min-height: 2vw;
+    border: 0.1vw;
+    border-style: solid;
+    border-color: lightslategray;
+
+    padding: 0.8vw 1.2vw;
+    border-radius: 5%;
+    width: fit-content;
+
+    color: aliceblue;
+
+}
+
+.no-answer{
+    background-color: lightslategray;
+}
+
+.wrong{
+    background-color: lightcoral;
+}
+
+.correct{
+    background-color: greenyellow;
+    color: lightslategray;
+}
+
+
