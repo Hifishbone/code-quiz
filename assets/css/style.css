@@ -95,4 +95,12 @@ ul li {
     color: lightslategray;
 }
 
+.form-group {
+    display: inline;
+    margin-left: 2vw;
+    padding: auto;
+}
 
+.form-group .buttom {
+    padding: 0.3vw 2vw;
+}

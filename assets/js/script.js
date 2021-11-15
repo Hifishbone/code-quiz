@@ -131,7 +131,20 @@ function showFinished() {
     socreElement.classList.add("center");
     contentEle.appendChild(socreElement);
 
-
+    var askNameElement = document.createElement("div");
+    askNameElement.innerHTML = "<h3>Enter initials: </h3>";
+    var formElement = document.createElement("form");
+    formElement.innerHTML = 
+    '<div class="form-group">' + 
+        '<input type="text" name="initail" placeholder="Enter Here" />' + 
+    '</div>' + 
+    '<div class="form-group">' + 
+        '<button class="buttom" id="save-name" type="submit">Submit</button>' + 
+    '</div>';
+    askNameElement.appendChild(formElement);
+    askNameElement.classList.add("center");
+    contentEle.appendChild(askNameElement);
+    
     showCheckMark();
 
 }
