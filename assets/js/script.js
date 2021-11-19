@@ -212,6 +212,7 @@ var clickHandler = function (event) {
     if (targetEl.matches("#start")) {
         console.log("start", targetEl);
         current_question_id = 0
+        checkMarks = new Array(questions.length).fill(-1);
         showTesting();
     }
     else if (targetEl.matches("#back")) {
