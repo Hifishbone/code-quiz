@@ -5,9 +5,6 @@
 3: highScore view
 */
 
-var VIEW = 0;
-
-
 var current_question_id = 0;
 
 var q1 = {
@@ -40,33 +37,20 @@ var questions = [q1, q2, q3, q4, q5]
 var checkMarks = new Array(questions.length).fill(-1);
 var score = 50;
 
+var scoreRecord = [];
+var temp = localStorage.getItem("scoreRecord");
+if (temp) {
+    scoreRecord = JSON.parse(temp);
+}
 
 var mainEl = document.querySelector("main");
 var checkMarkEle = document.querySelector("#check-mark");
 var scoreEle = document.querySelector("#score");
-
-
-function changView() {
-    switch (VIEW) {
-        case 0:
-            showStarting();
-            break;
-        case 1:
-            showTesting();
-            break;
-        case 2:
-            showFinished();
-            break; 
-        case 3:
-            showHighScore();
-            break;
-        default:
-            break;
-    }
-}
+var viewScoreEle = document.querySelector("#view-score");
 
 
 function showStarting() {
+    score = 50;
     scoreEle.innerHTML = 'score: ' + score;
     checkMarkEle.innerHTML = '';
     var titleEle = document.querySelector("#text-title");
@@ -144,7 +128,7 @@ function showFinished() {
     askNameElement.appendChild(formElement);
     askNameElement.classList.add("center");
     contentEle.appendChild(askNameElement);
-    
+
     showCheckMark();
 
 }
@@ -156,6 +140,39 @@ function showHighScore() {
 
     var contentEle = document.querySelector("#content");
     contentEle.innerHTML = '';
+
+    var olElement = document.createElement("ol");
+    olElement.classList.add("score-list");
+    olElement.classList.add("center");
+    for (i = 0; i < scoreRecord.length; i++) {
+        var liElement = document.createElement("li");
+        liElement.textContent = `${scoreRecord[i][0]} - ${scoreRecord[i][1]}`;
+        olElement.appendChild(liElement);
+    }
+    contentEle.appendChild(olElement);
+
+    var backHomeElement = document.createElement("div");
+    backHomeElement.innerHTML = 'Back To Home';
+
+
+    var clickElements = document.createElement("div");
+    clickElements.classList.add("center");
+
+    var clickElement = document.createElement("div");
+    clickElement.classList.add("buttom");
+    clickElement.classList.add("center");
+    clickElement.id = "back";
+    clickElement.textContent = "Back To Home";
+    clickElements.appendChild(clickElement);
+
+    var clickElement2 = document.createElement("div");
+    clickElement2.classList.add("buttom");
+    clickElement2.classList.add("center");
+    clickElement2.id = "clear";
+    clickElement2.textContent = "Clear Record";
+    clickElements.appendChild(clickElement2);
+
+    contentEle.appendChild(clickElements);
     
 }
 
@@ -193,9 +210,19 @@ var clickHandler = function (event) {
     console.log(targetEl);
   
     if (targetEl.matches("#start")) {
-      console.log("start", targetEl);
-      current_question_id = 0
-      showTesting();
+        console.log("start", targetEl);
+        current_question_id = 0
+        showTesting();
+    }
+    else if (targetEl.matches("#back")) {
+        console.log("back", targetEl);
+        showStarting();
+    }
+    else if (targetEl.matches("#clear")) {
+        console.log("clear", targetEl);
+        scoreRecord = [];
+        localStorage.setItem("scoreRecord", JSON.stringify(scoreRecord));
+        showHighScore();
     }
     else if (targetEl.matches(".selection")) {
         var expectedAns = questions[current_question_id].answer.toString();
@@ -225,7 +252,29 @@ var clickHandler = function (event) {
   };
 
 
-mainEl.addEventListener("click", clickHandler);
+var mainFormHandler = function (event) {
+  event.preventDefault();
+  var name = document.querySelector("input[name='initail']").value;
+  saveScore(name);
+  showStarting();
+}
 
+function saveScore(name) {
+    for (let i = 0; i < scoreRecord.length; i++) {
+        var ith_score = scoreRecord[i][1];
+        if (score > ith_score) {
+            scoreRecord.splice(i, 0, [name, score]);
+            localStorage.setItem("scoreRecord", JSON.stringify(scoreRecord));
+            return;
+        }
+    }
+    scoreRecord.push([name, score]);
+    localStorage.setItem("scoreRecord", JSON.stringify(scoreRecord));
+}
+
+
+mainEl.addEventListener("click", clickHandler);
+mainEl.addEventListener("submit", mainFormHandler);
+viewScoreEle.addEventListener("click", showHighScore);
 
 showStarting();
