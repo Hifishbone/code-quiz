@@ -5,6 +5,12 @@
 3: highScore view
 */
 
+var START = 0;
+var TESTING = 1;
+var FINISHED = 2;
+var SCOREBOARD = 3;
+
+var STATE = START;
 var current_question_id = 0;
 
 var q1 = {
@@ -35,7 +41,8 @@ var q5 = {
 
 var questions = [q1, q2, q3, q4, q5]
 var checkMarks = new Array(questions.length).fill(-1);
-var score = 50;
+var score = 100;
+
 
 var scoreRecord = [];
 var temp = localStorage.getItem("scoreRecord");
@@ -50,8 +57,8 @@ var viewScoreEle = document.querySelector("#view-score");
 
 
 function showStarting() {
-    score = 50;
-    scoreEle.innerHTML = 'score: ' + score;
+    STATE = START;
+    scoreEle.innerHTML = 'score: 100';
     checkMarkEle.innerHTML = '';
     var titleEle = document.querySelector("#text-title");
     titleEle.textContent = "Coding Quiz Challenge";
@@ -77,6 +84,7 @@ function showStarting() {
 }
 
 function showTesting() {
+    STATE = TESTING;
     scoreEle.innerHTML = 'score: ' + score;
 
     var cur_question = questions[current_question_id];
@@ -102,8 +110,8 @@ function showTesting() {
 
 
 function showFinished() {
+    STATE = FINISHED;
     scoreEle.innerHTML = 'score: ' + score;
-
     var titleEle = document.querySelector("#text-title");
     titleEle.textContent = "All Done!";
 
@@ -134,6 +142,9 @@ function showFinished() {
 }
 
 function showHighScore() {
+    STATE = SCOREBOARD;
+    scoreEle.innerHTML = '';
+
     checkMarkEle.innerHTML = '';
     var titleEle = document.querySelector("#text-title");
     titleEle.textContent = "High Scores";
@@ -213,6 +224,7 @@ var clickHandler = function (event) {
         console.log("start", targetEl);
         current_question_id = 0
         checkMarks = new Array(questions.length).fill(-1);
+        countdown();
         showTesting();
     }
     else if (targetEl.matches("#back")) {
@@ -231,7 +243,6 @@ var clickHandler = function (event) {
         if (expectedAns === actualAns) {
             checkMarks[current_question_id] = 1;
             console.log("Correct!");
-            score += 10;
         }
         else {
             checkMarks[current_question_id] = 0;
@@ -272,6 +283,23 @@ function saveScore(name) {
     scoreRecord.push([name, score]);
     localStorage.setItem("scoreRecord", JSON.stringify(scoreRecord));
 }
+
+function countdown() {
+    score = 100;
+    scoreEle.innerHTML = 'score: ' + score;
+    var timeInterval = setInterval(function() {
+        if (STATE === TESTING) {
+            score--;
+            scoreEle.innerHTML = 'score: ' + score;
+        }
+        else {
+            clearInterval(timeInterval);
+        }
+        if (score === 0 && STATE == TESTING) {
+            showFinished();
+        }
+    }, 1000);
+  }
 
 
 mainEl.addEventListener("click", clickHandler);
