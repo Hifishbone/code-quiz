@@ -11,5 +11,8 @@ A website that provides a timed quiz on JavaScript fundamentals that stores high
 ## Website
 https://hifishbone.github.io/code-quiz/
 
+## Homepage Screenshot
+![Alt text](/assets/images/homepage.jpg?raw=true "Homepage")
+
 ## Contribution
 Made with ❤️ by [Jerry Wei]
